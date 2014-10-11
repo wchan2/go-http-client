@@ -10,7 +10,7 @@ type HttpClient interface {
 	SendRequest(req *http.Request) (*HttpResponse, error)
 }
 
-type DefaultHttpClient struct {
+type SimpleHttpClient struct {
 	http.Client
 }
 
@@ -27,7 +27,7 @@ func CreateRequest(method, url, body string) (*http.Request, error) {
 	return request, nil
 }
 
-func (client *DefaultHttpClient) SendRequest(req *http.Request) (*HttpResponse, error) {
+func (client *SimpleHttpClient) SendRequest(req *http.Request) (*HttpResponse, error) {
 	var (
 		err          error
 		response     *http.Response
