@@ -1,5 +1,5 @@
-go-httpclient
-=============
+go-httpclient [![Build Status](https://travis-ci.org/wchan2/go-httpclient.png?branch=master)](https://travis-ci.org/wchan2/go-httpclient)
+====
 
 A wrapper around the standard library Go http client making it easier to use
 
@@ -55,3 +55,7 @@ mockClient.err = errors.New("Some error")
 // and test the case in which a certain response is returned
 mockClient.response = &HttpResponse{Status: http.StatusOK, Body: []byte(`{"test": "test"}`)}
 ```
+
+## License
+
+go-httpclient is released under the [MIT License](http://www.opensource.org/licenses/MIT).
