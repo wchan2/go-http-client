@@ -12,9 +12,3 @@ func NewRequest(method, url, body string) (*http.Request, error) {
 	}
 	return request, nil
 }
-
-type HttpResponse struct {
-	Status  int
-	Headers map[string][]string
-	Body    []byte
-}

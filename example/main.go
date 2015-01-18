@@ -10,7 +10,7 @@ import (
 func main() {
 	var (
 		req      *http.Request
-		response *httpclient.HttpResponse
+		response httpclient.HttpResponse
 		err      error
 	)
 	req, err = httpclient.NewRequest("GET", "http://yahoo.com", `{"test": "test"}`)
@@ -25,7 +25,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println("RESPONSE STATUS", response.Status)
-	fmt.Println("RESPONSE HEADERS", response.Headers)
-	fmt.Println("RESPONSE BODY", string(response.Body))
+	fmt.Println("RESPONSE STATUS", response.Status())
+	fmt.Println("RESPONSE HEADERS", response.Header())
+	fmt.Println("RESPONSE BODY", string(response.Body()))
 }
