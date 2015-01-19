@@ -1,7 +1,9 @@
 go-httpclient [![Build Status](https://travis-ci.org/wchan2/go-httpclient.png?branch=master)](https://travis-ci.org/wchan2/go-httpclient)
 ====
 
-A wrapper around the standard library Go http client making it easier to use
+A wrapper around the standard library Go http client making it easier to use. The package includes a synchronous http client the (`simpleHttpClient`) and an asynchronous http client (`asyncHttpClient`). 
+
+The asynchronous http client allows the request to be sent in a background goroutine and to have the response to be returned later. It blocks when the `ReceiveResponse` is called on an instance of the `asyncHttpClient` struct until a response is received; if the response is already ready, it will just return the response immediately.
 
 ### Usage
 
@@ -9,33 +11,33 @@ A wrapper around the standard library Go http client making it easier to use
 // declaring the error
 var (
 	err      error
-	req      *http.Request
+	request      *http.Request
 	response *httpclient.HttpResponse
 )
 
 // create the request using a simpler string formats
-
-req, err = httpclient.CreateRequest("GET", "http://google.com", `{"test": "test"}`)
+request, err = httpclient.NewRequest("GET", "http://google.com", `{"test": "test"}`)
 
 // making sure there are no errors upon creating the request
 if err != nil {
 	// ...
 }
 
-// creating a new SimpleHttpClient directly
-client := &httpclient.SimpleHttpClient{}
+// creating a SimpleHttpClient
+client := httpclient.NewSimpleHttpClient{}
 
 // retrieving a response and possibly and error
-response, err = client.SendRequest(req)
+response, err = client.SendRequest(request)
 
 // check for response errors before proceeding
 if err != nil {
 	// ...
 }
 
-// print the status code and the response body
-fmt.Println(response.Status)
-fmt.Println(string(response.Body))
+// print the status code, the response headers the response body
+fmt.Println(response.Status())
+fmt.Println(response.Header())
+fmt.Println(string(response.Body()))
 ```
 
 ### Testing
