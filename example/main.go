@@ -7,25 +7,51 @@ import (
 	"github.com/wchan2/go-httpclient"
 )
 
-func main() {
+func asyncHttpClientExample() {
 	var (
-		req      *http.Request
+		request  *http.Request
 		response httpclient.HttpResponse
 		err      error
 	)
-	req, err = httpclient.NewRequest("GET", "http://yahoo.com", `{"test": "test"}`)
+	request, err = httpclient.NewRequest("GET", "http://yahoo.com", `{"test": "test"}`)
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println("REQUEST", req)
-	client := httpclient.NewAsyncHttpClient()
-	client.SendRequest(req)
 
+	client := httpclient.NewAsyncHttpClient().SendRequest(request)
 	response, err = client.ReceiveResponse()
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println("RESPONSE STATUS", response.Status())
-	fmt.Println("RESPONSE HEADERS", response.Header())
-	fmt.Println("RESPONSE BODY", string(response.Body()))
+	fmt.Println(response.Status())
+	fmt.Println(response.Header())
+	fmt.Println(string(response.Body()))
+}
+
+func simpleHttpClientExample() {
+	var (
+		request  *http.Request
+		response httpclient.HttpResponse
+		err      error
+	)
+	request, err = httpclient.NewRequest("GET", "http://yahoo.com", `{"test": "test"}`)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	response, err = httpclient.NewSimpleHttpClient().SendRequest(request)
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Println(response.Status())
+	fmt.Println(response.Header())
+	fmt.Println(string(response.Body()))
+}
+
+func main() {
+	fmt.Println("Running SimpleHttpClient example")
+	simpleHttpClientExample()
+
+	fmt.Println("Running AsyncHttpClient example")
+	asyncHttpClientExample()
 }

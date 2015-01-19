@@ -20,7 +20,7 @@ func (suite *simpleHttpClientSuite) SetUpTest(c *C) {
 }
 
 func (suite *simpleHttpClientSuite) TestNewSimpleHttpClientReturnsNewClient(c *C) {
-	c.Assert(NewAsyncHttpClient(), NotNil)
+	c.Assert(NewSimpleHttpClient(), NotNil)
 }
 
 func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendRequestReceivesResponse(c *C) {
