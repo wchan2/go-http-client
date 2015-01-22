@@ -6,7 +6,7 @@ import (
 )
 
 type HttpClient interface {
-	SendRequest(req *http.Request) (HttpResponse, error)
+	Send(req *http.Request) (HttpResponse, error)
 }
 
 func NewSimpleHttpClient() HttpClient {
@@ -17,7 +17,7 @@ type simpleHttpClient struct {
 	http.Client
 }
 
-func (client *simpleHttpClient) SendRequest(req *http.Request) (HttpResponse, error) {
+func (client *simpleHttpClient) Send(req *http.Request) (HttpResponse, error) {
 	var (
 		err          error
 		response     *http.Response

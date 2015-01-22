@@ -18,8 +18,8 @@ func asyncHttpClientExample() {
 		panic(err.Error())
 	}
 
-	client := httpclient.NewAsyncHttpClient().SendRequest(request)
-	response, err = client.ReceiveResponse()
+	client := httpclient.NewAsyncHttpClient().Send(request)
+	response, err = client.Receive()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -39,7 +39,7 @@ func simpleHttpClientExample() {
 		panic(err.Error())
 	}
 
-	response, err = httpclient.NewSimpleHttpClient().SendRequest(request)
+	response, err = httpclient.NewSimpleHttpClient().Send(request)
 	if err != nil {
 		panic(err.Error())
 	}

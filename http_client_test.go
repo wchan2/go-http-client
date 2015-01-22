@@ -23,7 +23,7 @@ func (suite *simpleHttpClientSuite) TestNewSimpleHttpClientReturnsNewClient(c *C
 	c.Assert(NewSimpleHttpClient(), NotNil)
 }
 
-func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendRequestReceivesResponse(c *C) {
+func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendReceivesResponse(c *C) {
 	var (
 		sampleResponseBody []byte = []byte(`{"hello": "world"}`)
 		err                error
@@ -38,12 +38,12 @@ func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendRequestReceivesRespo
 	req, err = http.NewRequest("GET", testServer.URL, nil)
 	c.Assert(err, IsNil)
 
-	resp, err = suite.simpleHttpClient.SendRequest(req)
+	resp, err = suite.simpleHttpClient.Send(req)
 	c.Assert(err, IsNil)
 	c.Assert(resp, NotNil)
 }
 
-func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendRequestReceivesRequestBody(c *C) {
+func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendReceivesRequestBody(c *C) {
 	var (
 		sampleRequestBody []byte = []byte(`{"good": "bye"}`)
 		err               error
@@ -62,12 +62,12 @@ func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendRequestReceivesReque
 	clientRequest, err = http.NewRequest("GET", testServer.URL, bytes.NewReader(sampleRequestBody))
 	c.Assert(err, IsNil)
 
-	resp, err = suite.simpleHttpClient.SendRequest(clientRequest)
+	resp, err = suite.simpleHttpClient.Send(clientRequest)
 	c.Assert(err, IsNil)
 	c.Assert(resp, NotNil)
 }
 
-func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendRequestReturnsResponseStatus(c *C) {
+func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendReturnsResponseStatus(c *C) {
 	var (
 		err  error
 		req  *http.Request
@@ -81,14 +81,14 @@ func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendRequestReturnsRespon
 	req, err = http.NewRequest("GET", testServer.URL, nil)
 	c.Assert(err, IsNil)
 
-	resp, err = suite.simpleHttpClient.SendRequest(req)
+	resp, err = suite.simpleHttpClient.Send(req)
 	c.Assert(err, IsNil)
 
 	c.Assert(resp, NotNil)
 	c.Assert(resp.Status(), Equals, http.StatusOK)
 }
 
-func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendRequestReturnsResponseHeaders(c *C) {
+func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendReturnsResponseHeaders(c *C) {
 	var (
 		err  error
 		req  *http.Request
@@ -102,14 +102,14 @@ func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendRequestReturnsRespon
 	req, err = http.NewRequest("GET", testServer.URL, nil)
 	c.Assert(err, IsNil)
 
-	resp, err = suite.simpleHttpClient.SendRequest(req)
+	resp, err = suite.simpleHttpClient.Send(req)
 	c.Assert(err, IsNil)
 
 	c.Assert(resp, NotNil)
 	c.Assert(resp.Header().Get("Test-Header"), DeepEquals, "test-header-value")
 }
 
-func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendRequestReturnsResponseBody(c *C) {
+func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendReturnsResponseBody(c *C) {
 	var (
 		err         error
 		req         *http.Request
@@ -124,7 +124,7 @@ func (suite *simpleHttpClientSuite) TestSimpleHttpClientSendRequestReturnsRespon
 	req, err = http.NewRequest("GET", testServer.URL, nil)
 	c.Assert(err, IsNil)
 
-	resp, err = suite.simpleHttpClient.SendRequest(req)
+	resp, err = suite.simpleHttpClient.Send(req)
 	c.Assert(err, IsNil)
 
 	c.Assert(resp, NotNil)

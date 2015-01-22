@@ -33,7 +33,7 @@ func (suite *asyncHttpClientSuite) TestSendsRequestWithBody(c *C) {
 
 	clientRequest, err := http.NewRequest("GET", testServer.URL, bytes.NewReader(sampleBody))
 	c.Assert(err, IsNil)
-	suite.client.SendRequest(clientRequest)
+	suite.client.Send(clientRequest)
 }
 
 func (suite *asyncHttpClientSuite) TestReceivesResponseWithStatus(c *C) {
@@ -49,7 +49,7 @@ func (suite *asyncHttpClientSuite) TestReceivesResponseWithStatus(c *C) {
 	request, err = http.NewRequest("GET", testServer.URL, nil)
 	c.Assert(err, IsNil)
 
-	response, err = suite.client.SendRequest(request).ReceiveResponse()
+	response, err = suite.client.Send(request).Receive()
 	c.Assert(err, IsNil)
 	c.Assert(response.Status(), Equals, http.StatusConflict)
 }
@@ -67,7 +67,7 @@ func (suite *asyncHttpClientSuite) TestReceivesResponseWithHeaders(c *C) {
 	request, err = http.NewRequest("GET", testServer.URL, nil)
 	c.Assert(err, IsNil)
 
-	response, err = suite.client.SendRequest(request).ReceiveResponse()
+	response, err = suite.client.Send(request).Receive()
 	c.Assert(err, IsNil)
 	c.Assert(response.Header().Get("Test-Header"), Equals, "test-header-value")
 }
@@ -86,7 +86,7 @@ func (suite *asyncHttpClientSuite) TestReceivesResponseWithBody(c *C) {
 	clientRequest, err = http.NewRequest("GET", testServer.URL, nil)
 	c.Assert(err, IsNil)
 
-	response, err = suite.client.SendRequest(clientRequest).ReceiveResponse()
+	response, err = suite.client.Send(clientRequest).Receive()
 	c.Assert(err, IsNil)
 	c.Assert(response.Body(), NotNil)
 }

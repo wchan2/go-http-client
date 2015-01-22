@@ -3,7 +3,7 @@ go-httpclient [![Build Status](https://travis-ci.org/wchan2/go-httpclient.png?br
 
 A wrapper around the standard library Go http client making it easier to use. The package includes a synchronous http client the (`simpleHttpClient`) and an asynchronous http client (`asyncHttpClient`). 
 
-The asynchronous http client allows the request to be sent in a background goroutine and to have the response to be returned later. It blocks when the `ReceiveResponse` is called on an instance of the `asyncHttpClient` struct until a response is received; if the response is already ready, it will just return the response immediately.
+The asynchronous http client allows the request to be sent in a background goroutine and to have the response to be returned later. It blocks when the `Receive` is called on an instance of the `asyncHttpClient` struct until a response is received; if the response is already ready, it will just return the response immediately.
 
 ### Examples
 
@@ -31,7 +31,7 @@ if err != nil {
 client := httpclient.NewSimpleHttpClient()
 
 // retrieving a response and possibly and error
-response, err = client.SendRequest(request)
+response, err = client.Send(request)
 
 // check for response errors before proceeding
 if err != nil {
@@ -66,10 +66,10 @@ if err != nil {
 client := httpclient.NewAsyncHttpClient()
 
 // 	send the request
-client.SendRequest(request)
+client.Send(request)
 
 // do something...
-response, err = client.ReceiveResponse()
+response, err = client.Receive()
 
 // check for response errors before proceeding
 if err != nil {

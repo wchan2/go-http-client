@@ -3,8 +3,8 @@ package httpclient
 import "net/http"
 
 type AsyncHttpClient interface {
-	SendRequest(req *http.Request) AsyncHttpClient
-	ReceiveResponse() (HttpResponse, error)
+	Send(req *http.Request) AsyncHttpClient
+	Receive() (HttpResponse, error)
 }
 
 func NewAsyncHttpClient() AsyncHttpClient {
@@ -20,9 +20,9 @@ type asyncHttpClient struct {
 	simpleHttpClient
 }
 
-func (client *asyncHttpClient) SendRequest(request *http.Request) AsyncHttpClient {
+func (client *asyncHttpClient) Send(request *http.Request) AsyncHttpClient {
 	go func() {
-		response, err := client.simpleHttpClient.SendRequest(request)
+		response, err := client.simpleHttpClient.Send(request)
 		if err != nil {
 			client.errorChannel <- err
 		} else {
@@ -36,7 +36,7 @@ func (client *asyncHttpClient) SendRequest(request *http.Request) AsyncHttpClien
 	return client
 }
 
-func (client *asyncHttpClient) ReceiveResponse() (HttpResponse, error) {
+func (client *asyncHttpClient) Receive() (HttpResponse, error) {
 	select {
 	case err := <-client.errorChannel:
 		return nil, err
